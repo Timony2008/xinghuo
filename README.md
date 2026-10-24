@@ -12,8 +12,8 @@
 git clone https://github.com/Timony2008/xinghuo.git
 cd xinghuo
 uv sync --frozen --extra runtime
-uv run python -m unittest discover -s tests -q
-uv run python -m xinghuo demo --duration 5
+uv run --frozen --extra runtime python -m unittest discover -s tests -q
+uv run --frozen --extra runtime python -m xinghuo demo --duration 5
 ```
 
 `demo` 使用确定性的 native 假角色与假平台，不调用付费模型或真实靶场。运行产物保存在被 Git 忽略的 `runs/`。完整工具链、Docker 和独立 Python 3.14 不属于上述纯源码测试的前置条件；环境相关用例会说明跳过原因。
@@ -33,9 +33,9 @@ uv run python -m xinghuo demo --duration 5
 bash scripts/prepare_veria.sh
 
 # 填好私有 config.local.toml，并在进程环境中设置凭证后：
-uv run python -m xinghuo run --config config.local.toml --run-dir runs/my-run
-uv run python -m xinghuo status --run-dir runs/my-run
-uv run python -m xinghuo resume --run-dir runs/my-run
+uv run --frozen --extra runtime python -m xinghuo run --config config.local.toml --run-dir runs/my-run
+uv run --frozen --extra runtime python -m xinghuo status --run-dir runs/my-run
+uv run --frozen --extra runtime python -m xinghuo resume --run-dir runs/my-run
 ```
 
 新运行使用新目录；恢复沿用原截止时间、成员与 provider/model 绑定。程序不会自动读取任意 `.env` 文件，请由启动环境显式注入变量。`hosted.env.example` 是托管网关模板，其地址不适用于普通本地直连。
@@ -57,7 +57,7 @@ uv run python -m xinghuo resume --run-dir runs/my-run
 请先阅读 [协作说明](CONTRIBUTING.md)、[架构概览](docs/ARCHITECTURE_OVERVIEW.md) 和 [当前边界](docs/DEVELOPMENT_STATUS.md)。修改提示词时运行：
 
 ```sh
-uv run python scripts/audit_veria_upstream.py --output dist/prompt-audit
+uv run --frozen --extra runtime python scripts/audit_veria_upstream.py --output dist/prompt-audit
 ```
 
 此命令默认离线，核对 37 个上游原文件并导出实际提示词差异，不调用模型或比赛平台。真实 SDK 合成端点检查使用 Python 3.14，见协作说明。

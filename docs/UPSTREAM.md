@@ -7,7 +7,7 @@
 本地适配集中在 `src/xinghuo/veria/prompts.py`：只对角色范围、平台多 flag 完成条件、环境事实、已配置轮转等具体冲突做可审计替换；项目新增职责追加。Reviewer 继承完整 Solver 解题基线；Reporter 是本项目的独立本地角色，保留其完整基线。
 
 ```sh
-uv run python scripts/audit_veria_upstream.py --output dist/prompt-audit
+uv run --frozen --extra runtime python scripts/audit_veria_upstream.py --output dist/prompt-audit
 ```
 
 默认只核对本地固定文件并导出系统提示词、续轮全文、哈希和逐段变更台账。显式添加 `--fetch-upstream` 才会访问上游固定提交的源码归档，仍不调用模型或平台。工具安装清单及锁定来源位于 `docker/veria/`，不能以提示词声明或安装入口存在替代功能验收。

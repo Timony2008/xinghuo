@@ -15,5 +15,5 @@ jobs:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       - uses: astral-sh/setup-uv@d0d8abe699bfb85fec6de9f7adb5ae17292296ff # v6
       - run: uv sync --frozen --extra runtime --python '${{ matrix.python }}'
-      - run: uv run python -m unittest discover -s tests -q
-      - run: uv run python scripts/audit_veria_upstream.py --output dist/prompt-audit
+      - run: uv run --frozen --extra runtime --python '${{ matrix.python }}' python -m unittest discover -s tests -q
+      - run: uv run --frozen --extra runtime --python '${{ matrix.python }}' python scripts/audit_veria_upstream.py --output dist/prompt-audit

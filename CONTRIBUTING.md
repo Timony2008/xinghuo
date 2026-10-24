@@ -4,8 +4,8 @@
 
 ```sh
 uv sync --frozen --extra runtime
-uv run python -m unittest discover -s tests -q
-uv run python scripts/audit_veria_upstream.py --output dist/prompt-audit
+uv run --frozen --extra runtime python -m unittest discover -s tests -q
+uv run --frozen --extra runtime python scripts/audit_veria_upstream.py --output dist/prompt-audit
 ```
 
 真实 SDK 的离线协议验证需要独立 Python 3.14，但不需要真实 key：
