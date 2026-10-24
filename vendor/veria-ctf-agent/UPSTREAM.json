@@ -1,0 +1,9 @@
+{
+  "repository": "https://github.com/verialabs/ctf-agent",
+  "commit": "3366d569557c4fda3fd153040632de65e255396d",
+  "source_archive": "https://codeload.github.com/verialabs/ctf-agent/tar.gz/3366d569557c4fda3fd153040632de65e255396d",
+  "license": "MIT",
+  "integration": "xinghuo.veria",
+  "entrypoint": "xinghuo.veria_runtime",
+  "upstream_cli_enabled": false
+}

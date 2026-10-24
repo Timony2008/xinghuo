@@ -1,0 +1,71 @@
+{
+  "radare2": {
+    "url": "https://codeload.github.com/radareorg/radare2/tar.gz/8750ef8573a5f05a78493d973315c87b258e6c5e",
+    "commit": "8750ef8573a5f05a78493d973315c87b258e6c5e",
+    "sha256": "89c341c542b5d7da25807d9fc8e2823eb20d2d9777fe406bafb64caf7a710445"
+  },
+  "flatter": {
+    "url": "https://codeload.github.com/keeganryan/flatter/tar.gz/d2b8026f29b4a69e987b15d4b240f8a5053275d3",
+    "commit": "d2b8026f29b4a69e987b15d4b240f8a5053275d3",
+    "sha256": "f9618692d69f10a79389b17aa65f00d26ba3a69ca2435d5f5c19fd950abe111f"
+  },
+  "stegseek": {
+    "url": "https://codeload.github.com/RickdeJager/stegseek/tar.gz/58969789a5724701048d5d5510af84098cc1f1ea",
+    "commit": "58969789a5724701048d5d5510af84098cc1f1ea",
+    "sha256": "79cb324ef930d7411cd97ae2f7975157e6d01602b1cdc73b401873c7104abdc9"
+  },
+  "rsactftool": {
+    "url": "https://codeload.github.com/RsaCtfTool/RsaCtfTool/tar.gz/e1d8644e80aa48d08aa8e06d24c37cf81f3fb437",
+    "commit": "e1d8644e80aa48d08aa8e06d24c37cf81f3fb437",
+    "sha256": "23a1be2fde5c1fca75701d9de9b1780277d31094ff34ffbaf09b47ff98cda89a"
+  },
+  "cado-nfs": {
+    "url": "https://codeload.github.com/cado-nfs/cado-nfs/tar.gz/692ecb7e62f0f3bdab88ee44cc60b8ded0ea1a1b",
+    "commit": "692ecb7e62f0f3bdab88ee44cc60b8ded0ea1a1b",
+    "sha256": "8df373be6e214e4800d481ec59d803211ea7c2e530943e6154ef11e16497f3b3"
+  },
+  "ghidra": {
+    "url": "https://github.com/NationalSecurityAgency/ghidra/releases/download/Ghidra_12.1.4_build/ghidra_12.1.4_PUBLIC_20260921.zip",
+    "version": "12.1.4",
+    "sha256": "ddac49f903da9d5bac833e5cc79395098b9c33cfd3279be5f31bd00387d2d4db"
+  },
+  "java-arm64": {
+    "url": "https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.12.1%2B1/OpenJDK21U-jdk_aarch64_linux_hotspot_21.0.12.1_1.tar.gz",
+    "version": "21.0.12.1+1",
+    "sha256": "23e37e026f12f3e706f18938ff611db3032d075b09d0879a25d06718c773e223"
+  },
+  "java-amd64": {
+    "url": "https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.12.1%2B1/OpenJDK21U-jdk_x64_linux_hotspot_21.0.12.1_1.tar.gz",
+    "version": "21.0.12.1+1",
+    "sha256": "ce79869e1307ed8ee1e2baa86a412b1eb5b75d10a01006d788a6f968bcfaee94"
+  },
+  "gradle": {
+    "url": "https://services.gradle.org/distributions/gradle-9.7.1-bin.zip",
+    "version": "9.7.1",
+    "sha256": "acd53f1edaf02f1a8ff99879f8a34b302661a057d9b063ae9e35b552f804d20a"
+  },
+  "r2-sdb": {
+    "url": "https://codeload.github.com/radareorg/sdb/tar.gz/a57df8d063df83c3d187e9eceba442fc4afaeb20",
+    "commit": "a57df8d063df83c3d187e9eceba442fc4afaeb20",
+    "sha256": "a8996bd97b3033dfbc78c949c3c4583b7369b489b59ce2814e5c9bda51cc43d4",
+    "upstream_ref": "2.5.8"
+  },
+  "r2-qjs": {
+    "url": "https://codeload.github.com/quickjs-ng/quickjs/tar.gz/b51e5278439b2fa0510fbb1f3b3dff9f0064d5d7",
+    "commit": "b51e5278439b2fa0510fbb1f3b3dff9f0064d5d7",
+    "sha256": "34e92aefe62e06638c72fe9d13e6f0c1cf445744aa0068f7fd29afba4d31fdf9",
+    "upstream_ref": "b51e5278439b2fa0510fbb1f3b3dff9f0064d5d7"
+  },
+  "r2-otezip": {
+    "url": "https://codeload.github.com/trufae/otezip/tar.gz/c501074a6abe59e0511510daa4bdf522c40880b8",
+    "commit": "c501074a6abe59e0511510daa4bdf522c40880b8",
+    "sha256": "309d18fa532656bae021980c4d775bd8894042efa11ea14465a347cfff987769",
+    "upstream_ref": "0.4.8"
+  },
+  "r2-capstone-v5": {
+    "url": "https://codeload.github.com/capstone-engine/capstone/tar.gz/51360daf925e50d4da383cff2278107e6ffd8074",
+    "commit": "51360daf925e50d4da383cff2278107e6ffd8074",
+    "sha256": "8c1aac85efda90d9de6dba786942568b97d1b39a19054f65df757d3d93cdc4bc",
+    "upstream_ref": "51360daf925e50d4da383cff2278107e6ffd8074"
+  }
+}

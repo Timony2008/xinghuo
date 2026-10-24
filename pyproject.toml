@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "xinghuo-harness"
+version = "0.4.4"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.optional-dependencies]
+agents = ["claude-agent-sdk==0.2.167"]
+benchmark = ["tsec-benchmark==0.1.2"]
+runtime = ["claude-agent-sdk==0.2.167", "tsec-benchmark==0.1.2"]
+
+[project.scripts]
+xinghuo = "xinghuo.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+xinghuo = ["policies/*.md", "veria/resources/*.txt"]

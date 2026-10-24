@@ -1,0 +1,53 @@
+[harness]
+# Four independent solver members. Credentials stay in runtime environment.
+team_engine = "veria"
+veria_team_profile = "flash4"
+veria_provider = "deepseek"
+veria_solver_ids = ["solver-1", "solver-2", "solver-3", "solver-4"]
+model = "deepseek-flash"
+backend = "claude"
+# Absolute path to the isolated Python 3.14 environment prepared for your checkout (replace this placeholder).
+veria_python = "/absolute/path/to/xinghuo/.venv-veria/bin/python"
+# Build with: docker build -f Dockerfile.veria-tools -t xinghuo-veria-tools:local .
+# An image reference is required; runtime verifies Docker and records the actual image ID.
+veria_tool_image = "xinghuo-veria-tools:local"
+veria_tool_cpu_limit = 2
+veria_tool_memory_limit = "2g"
+# 'none' is only for offline tool checks. Target reachability depends on deployment networking.
+veria_tool_network = "bridge"
+veria_report_interval = 60
+parallel = 3
+budget = 28800
+no_flag_timeout = 900
+audit_interval = 900
+audit_report_timeout = 180
+review_interval = 1800
+epsilon = 0.10
+seed = 20261015
+operation_timeout = 30
+strategy_timeout = 180
+shutdown_timeout = 20
+heartbeat_timeout = 30
+role_turn_timeout = 900
+cleanup_reserve = 180
+max_retries = 2
+# All roles and the global strategy use DeepSeek Flash in this profile.
+# Credentials are read from the runtime environment and never saved here.
+
+[harness.veria_models]
+solver-1 = "deepseek-flash"
+solver-2 = "deepseek-flash"
+solver-3 = "deepseek-flash"
+solver-4 = "deepseek-flash"
+coordinator = "deepseek-flash"
+reporter = "deepseek-flash"
+reviewer = "deepseek-flash"
+
+[harness.veria_providers]
+solver-1 = "deepseek"
+solver-2 = "deepseek"
+solver-3 = "deepseek"
+solver-4 = "deepseek"
+coordinator = "deepseek"
+reporter = "deepseek"
+reviewer = "deepseek"

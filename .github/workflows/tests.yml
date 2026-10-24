@@ -1,0 +1,19 @@
+name: Offline source tests
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ['3.12', '3.14']
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: astral-sh/setup-uv@d0d8abe699bfb85fec6de9f7adb5ae17292296ff # v6
+      - run: uv sync --frozen --extra runtime --python '${{ matrix.python }}'
+      - run: uv run python -m unittest discover -s tests -q
+      - run: uv run python scripts/audit_veria_upstream.py --output dist/prompt-audit

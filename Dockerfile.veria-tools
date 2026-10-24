@@ -1,0 +1,57 @@
+# Complete upstream capability union. Shared by local and hosted environments.
+FROM ghcr.io/astral-sh/uv:0.13.1@sha256:4a1f3666816dafadd20ceb71eac9a7d56d7ef30279f7d64048519ab901ada336 AS uv
+FROM ubuntu:22.04@sha256:5ec03bb3441e8b0bf3b4f9cd4629a1ae763010dc3035bb8da3ae6cf026486401
+ARG BUILD_JOBS=2
+ENV DEBIAN_FRONTEND=noninteractive TERM=xterm \
+    UV_PYTHON_INSTALL_DIR=/opt/python UV_NATIVE_TLS=true \
+    PATH=/opt/ctf/bin:/opt/sdk/bin:/opt/java/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
+    JAVA_HOME=/opt/java GHIDRA_INSTALL_DIR=/opt/ghidra KERAS_BACKEND=torch \
+    PYTHONUNBUFFERED=1 PIP_DISABLE_PIP_VERSION_CHECK=1
+COPY --from=uv /uv /uvx /usr/local/bin/
+COPY docker/veria/apt-packages.txt /opt/xinghuo/build/apt-packages.txt
+RUN apt-get -o Acquire::Retries=3 -o Acquire::http::Timeout=60 update \
+    && apt-get -o Acquire::Retries=3 install -y --no-install-recommends ca-certificates \
+    && sed -i 's|http://|https://|g' /etc/apt/sources.list \
+    && apt-get -o Acquire::Retries=3 -o Acquire::https::Timeout=60 update \
+    && xargs apt-get -o Acquire::Retries=5 install -y --no-install-recommends < /opt/xinghuo/build/apt-packages.txt \
+    && dpkg-query -W -f='${Package}=${Version}\n' > /opt/xinghuo/build/apt-installed.lock \
+    && rm -rf /var/lib/apt/lists/*
+RUN uv python install 3.11.14 3.14.8 \
+    && uv venv --seed --python 3.11.14 /opt/ctf \
+    && uv venv --seed --python 3.14.8 /opt/sdk
+ARG TARGETARCH
+COPY docker/veria/requirements-ctf.in docker/veria/requirements-torch.in docker/veria/requirements-*.lock /opt/xinghuo/build/
+RUN cp "/opt/xinghuo/build/requirements-ctf.${TARGETARCH}.lock" /opt/xinghuo/build/requirements-ctf.lock \
+    && uv pip install --python /opt/ctf/bin/python3 --require-hashes -r /opt/xinghuo/build/requirements-ctf.lock \
+    && cp "/opt/xinghuo/build/requirements-torch.${TARGETARCH}.lock" /opt/xinghuo/build/requirements-torch.lock \
+    && uv pip install --python /opt/ctf/bin/python3 --require-hashes --torch-backend cpu -r /opt/xinghuo/build/requirements-torch.lock \
+    && uv cache clean
+COPY docker/veria/sources.lock.json docker/veria/fetch-source.py docker/veria/install-native.sh docker/veria/install-ghidra.sh /opt/xinghuo/build/
+RUN bash /opt/xinghuo/build/install-native.sh radare2
+RUN bash /opt/xinghuo/build/install-native.sh flatter
+RUN bash /opt/xinghuo/build/install-native.sh stegseek
+# CADO and gf2x otherwise probe the builder CPU and may emit instructions that
+# are unavailable on the hosted machine. Both respect an explicit -march.
+RUN case "${TARGETARCH}" in amd64) cado_arch=x86-64 ;; arm64) cado_arch=armv8-a ;; *) exit 2 ;; esac \
+    && sed -i "s/-DCMAKE_C_FLAGS='-O2'/-DCMAKE_C_FLAGS='-O2 -march=${cado_arch} -mtune=generic'/;s/-DCMAKE_CXX_FLAGS='-O2'/-DCMAKE_CXX_FLAGS='-O2 -march=${cado_arch} -mtune=generic'/" /opt/xinghuo/build/install-native.sh \
+    && if [ "${TARGETARCH}" = amd64 ]; then printf '#!/bin/sh\nunset MAKEFLAGS MFLAGS GNUMAKEFLAGS\nexec /usr/bin/gmake -j1 "$@"\n' > /opt/xinghuo/build/gf2x-make-serial; chmod 755 /opt/xinghuo/build/gf2x-make-serial; sed -i 's|-DBUILD_TESTING=OFF|-DBUILD_TESTING=OFF -DGMAKE_EXECUTABLE=/opt/xinghuo/build/gf2x-make-serial|' /opt/xinghuo/build/install-native.sh; fi \
+    && bash /opt/xinghuo/build/install-native.sh cado-nfs
+RUN bash /opt/xinghuo/build/install-native.sh rsactftool
+RUN gem install zsteg --version 0.2.13 --no-document \
+    && gem list --local > /opt/xinghuo/build/ruby-installed.lock
+RUN sed -i 's|Features/Decompiler/os/linux_arm_64/decompile|Features/Decompiler/build/os/linux_arm_64/decompile|' /opt/xinghuo/build/install-ghidra.sh \
+    && bash /opt/xinghuo/build/install-ghidra.sh
+COPY vendor/veria-ctf-agent/sandbox/sandbox-tools.txt /opt/xinghuo/build/upstream-tools.txt
+COPY docker/veria/make-manifest.py docker/veria/lock-apt.py /opt/xinghuo/build/
+RUN apt-get -o Acquire::Retries=3 update \
+    && /usr/bin/python3 /opt/xinghuo/build/lock-apt.py \
+    && rm -rf /var/lib/apt/lists/* \
+    && /opt/ctf/bin/python3 /opt/xinghuo/build/make-manifest.py \
+    && uv pip check --python /opt/ctf/bin/python3 \
+    && uv pip freeze --python /opt/ctf/bin/python3 > /opt/xinghuo/build/python-installed.lock \
+    && uv cache clean
+COPY scripts/veria_container_exec.py /usr/local/bin/xinghuo_exec.py
+COPY scripts/veria_tool_acceptance.py /opt/xinghuo/veria_tool_acceptance.py
+RUN mkdir -p /challenge/inputs /challenge/members /challenge/shared /challenge/control
+WORKDIR /challenge
+CMD ["sleep", "infinity"]

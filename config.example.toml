@@ -1,0 +1,21 @@
+[harness]
+backend = "claude"
+# model omitted: ANTHROPIC_MODEL is used. Credentials remain in the environment.
+parallel = 3
+budget = 36000
+audit_interval = 900
+# Bounded wait for the leader draft and reporter publication; solving continues.
+audit_report_timeout = 180
+review_interval = 1800
+epsilon = 0.10
+seed = 20261015
+# Machine capacity, not a strategy-agent headcount allocation.
+max_agents_per_team = 12
+# Engineering failure protection; these never mean a challenge is unpromising.
+operation_timeout = 30
+strategy_timeout = 180
+shutdown_timeout = 20
+heartbeat_timeout = 30
+role_turn_timeout = 900
+cleanup_reserve = 60
+max_retries = 2

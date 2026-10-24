@@ -1,0 +1,13 @@
+**
+!Dockerfile.hosted
+!pyproject.toml
+!requirements-hosted.txt
+!requirements-veria.lock
+!src/
+!src/**
+src/**/__pycache__/
+src/**/*.pyc
+src/**/*.egg-info/
+!scripts/
+!scripts/veria_container_exec.py
+!scripts/veria_tool_acceptance.py

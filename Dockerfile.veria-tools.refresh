@@ -1,0 +1,16 @@
+# Retain native tools while applying the hash-locked Python API compatibility
+# repair and refreshing inspection/acceptance files. No native tool rebuild.
+ARG VERIA_TOOLS_BASE=xinghuo-veria-tools:full-amd64-20261016
+FROM ${VERIA_TOOLS_BASE}
+ARG TARGETARCH
+COPY docker/veria/requirements-ctf.in docker/veria/requirements-compat.in docker/veria/requirements-*.lock /opt/xinghuo/build/
+RUN uv pip install --python /opt/ctf/bin/python3 --require-hashes -r "/opt/xinghuo/build/requirements-compat.${TARGETARCH}.lock" \
+    && uv pip check --python /opt/ctf/bin/python3 \
+    && cp "/opt/xinghuo/build/requirements-ctf.${TARGETARCH}.lock" /opt/xinghuo/build/requirements-ctf.lock \
+    && cp "/opt/xinghuo/build/requirements-torch.${TARGETARCH}.lock" /opt/xinghuo/build/requirements-torch.lock \
+    && uv pip freeze --python /opt/ctf/bin/python3 > /opt/xinghuo/build/python-installed.lock \
+    && uv cache clean
+COPY docker/veria/make-manifest.py /opt/xinghuo/build/
+COPY scripts/veria_container_exec.py /usr/local/bin/xinghuo_exec.py
+COPY scripts/veria_tool_acceptance.py /opt/xinghuo/veria_tool_acceptance.py
+RUN /opt/ctf/bin/python3 /opt/xinghuo/build/make-manifest.py

@@ -1,0 +1,12 @@
+**
+!Dockerfile.veria-tools
+!docker/
+!docker/veria/
+!docker/veria/**
+!vendor/
+!vendor/veria-ctf-agent/
+!vendor/veria-ctf-agent/sandbox/
+!vendor/veria-ctf-agent/sandbox/sandbox-tools.txt
+!scripts/
+!scripts/veria_container_exec.py
+!scripts/veria_tool_acceptance.py

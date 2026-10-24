@@ -1,0 +1,2 @@
+# Separate from the host environment; the full resolved snapshot is saved separately.
+claude-agent-sdk==0.2.167

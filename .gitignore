@@ -1,0 +1,27 @@
+# Machine-local environments and secrets
+.venv/
+.venv-veria/
+.env
+.env.*
+*.env
+!.env.example
+!*.env.example
+*.pem
+*.key
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.DS_Store
+# Runtime evidence, private challenge data, and generated images
+/runs/
+/dist/
+/build/
+/work/
+/config*.local*.toml
+# Public developer docs are curated; historical operator records stay local.
+/docs/*
+!/docs/ARCHITECTURE_OVERVIEW.md
+!/docs/DEVELOPMENT_STATUS.md
+!/docs/UPSTREAM.md
